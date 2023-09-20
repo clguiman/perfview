@@ -25,18 +25,25 @@ namespace Microsoft.Diagnostics.Tracing.AutomatedAnalysis
             _configuration = analyzerResolver.Configuration;
 
         }
-
         /// <summary>
         /// Process a single trace.
         /// </summary>
         /// <param name="trace">The trace.</param>
         /// <returns>The result of processing the trace.</returns>
-        public TraceProcessorResult ProcessTrace(ITrace trace)
+        public TraceProcessorResult ProcessTrace(ITrace trace) => ProcessTrace(trace, (config, t) => new AnalyzerExecutionContext(config, t));
+
+        /// <summary>
+        /// Process a single trace.
+        /// </summary>
+        /// <param name="trace">The trace.</param>
+        /// <param name="executionContextFactory">The context factory.</param>
+        /// <returns>The result of processing the trace.</returns>
+        public TraceProcessorResult ProcessTrace(ITrace trace, Func<Configuration, ITrace, AnalyzerExecutionContext> executionContextFactory)
         {
             List<ProcessAnalyzer> processAnalyzers = new List<ProcessAnalyzer>();
 
             // Run global analyzers, deferring per-process analyzers.
-            AnalyzerExecutionContext executionContext = new AnalyzerExecutionContext(_configuration, trace);
+            AnalyzerExecutionContext executionContext = executionContextFactory(_configuration, trace);
             foreach (Analyzer analyzer in _analyzers)
             {
                 if (analyzer is ProcessAnalyzer)

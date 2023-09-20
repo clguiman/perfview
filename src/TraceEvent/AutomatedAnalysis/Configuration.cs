@@ -2,7 +2,7 @@
 
 namespace Microsoft.Diagnostics.Tracing.AutomatedAnalysis
 {
-    internal class Configuration
+    public class Configuration
     {
         private Dictionary<string, AnalyzerConfiguration> _analyzerConfigurations = new Dictionary<string, AnalyzerConfiguration>();
 

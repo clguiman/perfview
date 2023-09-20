@@ -3,11 +3,11 @@
     /// <summary>
     /// The top-level object used to store contextual information during Analyzer execution.
     /// </summary>
-    public sealed class AnalyzerExecutionContext
+    public class AnalyzerExecutionContext
     {
         private Configuration _configuration;
 
-        internal AnalyzerExecutionContext(Configuration configuration, ITrace trace)
+        public AnalyzerExecutionContext(Configuration configuration, ITrace trace)
         {
             _configuration = configuration;
             Trace = trace;
